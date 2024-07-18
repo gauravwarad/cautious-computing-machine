@@ -1,4 +1,5 @@
 from typing import Optional
+from collections import deque
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -8,22 +9,24 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        depth, diameter = self.dfs(root)
-        # print(depth)
-        return diameter
-
-
-    def dfs(self, root):
-        # base case - leaf node
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
         if root is None:
-            return 0, 0
-        # diameter = 0
+            return 0
+        sum = 0
+        if root.val >= low and root.val <= high:
+            sum += root.val
+            print("value is - ", root.val)
+            sum += self.rangeSumBST(root.left, low, high)
+            sum += self.rangeSumBST(root.right, low, high)
+        else:
+            if root.val > high: # skip the right part
+                sum += self.rangeSumBST(root.left, low, high)
+            
+            if root.val < low: # skip left
+                sum += self.rangeSumBST(root.right, low, high)
 
-        ldepth, ldiameter = self.dfs(root.left)
-        rdepth, rdiameter = self.dfs(root.right)
+        return sum
 
-        return max(ldepth, rdepth) + 1, max(ldepth + rdepth, ldiameter, rdiameter)
 
 
 # Helper function to build a binary tree from a list
@@ -43,23 +46,14 @@ def build_tree(nodes):
 
 # Example usage:
 if __name__ == "__main__":
-    # Example binary tree and target sum
-    # nodes = [5, 4, 8, 11, None, 13, 4, 7, 2, None, None, None, None, 5, 1]
-    # targetSum = 22
-    # p = [1,2,1]
-    # q = [1,1, 2]
-    # targetSum = 5
-    # Build the tree
-    # root1 = build_tree(p)
-    nodes = [1,2,3,4,5]
+    
+    nodes = [10,5,15,3,7,None,18]
     root = build_tree(nodes)
     # Create an instance of Solution
     sol = Solution()
     
     # Call the hasPathSum method
-    result = sol.diameterOfBinaryTree(root)
+    result = sol.rangeSumBST(root, 7, 15)
     
     # Print the result
     print(result)
-
-

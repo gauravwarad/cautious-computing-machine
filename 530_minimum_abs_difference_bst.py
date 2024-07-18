@@ -1,4 +1,5 @@
 from typing import Optional
+from collections import deque
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -8,23 +9,34 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        depth, diameter = self.dfs(root)
-        # print(depth)
-        return diameter
+    
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        
+        def dfs(root):
+            if root is None:
+                return
+            
+            dfs(root.left)
+            # print(root.val)
+            seq.append(root.val)
+            dfs(root.right)
 
+            return None
+        
+        seq = []
+        dfs(root)
+        mini = 10**5 + 1
 
-    def dfs(self, root):
-        # base case - leaf node
-        if root is None:
-            return 0, 0
-        # diameter = 0
+        for i in range(0, len(seq) - 1):
+            print(seq[i])
+            print(seq[i+1])
+            mini = min(mini, abs(seq[i] - seq[i+1]))
+            print("mini is - ", mini)
+        return mini
 
-        ldepth, ldiameter = self.dfs(root.left)
-        rdepth, rdiameter = self.dfs(root.right)
+    
 
-        return max(ldepth, rdepth) + 1, max(ldepth + rdepth, ldiameter, rdiameter)
-
+    
 
 # Helper function to build a binary tree from a list
 def build_tree(nodes):
@@ -43,23 +55,14 @@ def build_tree(nodes):
 
 # Example usage:
 if __name__ == "__main__":
-    # Example binary tree and target sum
-    # nodes = [5, 4, 8, 11, None, 13, 4, 7, 2, None, None, None, None, 5, 1]
-    # targetSum = 22
-    # p = [1,2,1]
-    # q = [1,1, 2]
-    # targetSum = 5
-    # Build the tree
-    # root1 = build_tree(p)
-    nodes = [1,2,3,4,5]
+    
+    nodes = [1,None,5,3]
     root = build_tree(nodes)
     # Create an instance of Solution
     sol = Solution()
     
     # Call the hasPathSum method
-    result = sol.diameterOfBinaryTree(root)
+    result = sol.getMinimumDifference(root)
     
     # Print the result
     print(result)
-
-
