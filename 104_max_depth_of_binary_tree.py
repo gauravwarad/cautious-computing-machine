@@ -24,5 +24,29 @@ class Solution:
             if maxi < depth:
                 maxi = depth
         return maxi
+    
+    def maxDepth2(self, root: Optional[TreeNode]) -> int:
+        
+        if root is None:
+            return 0
+        
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
+
+    def maxDepth3(self, root):
+        # iterative.
+        if root is None:
+            return 0
+        stacku = []
+        stacku.append(root)
+        depth = 1
+        maxdepth = 1
+
+        while stacku:
+            node, depth = stacku.pop()
+            stacku.append([node.left, depth + 1])
+            stacku.append([node.right, depth + 1])
+
+            maxdepth = max(depth, maxdepth)
+        
 
