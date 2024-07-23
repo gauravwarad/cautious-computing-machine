@@ -31,8 +31,21 @@ class Solution:
 
         return True
 
-
-
+    def canVisitAllRooms2(self, rooms: list[list[int]]) -> bool:
+        # 22 july
+        visited = set()
+        def dfs(room):
+            print("dfs for room - ", room)
+            if room in visited:
+                return
+            visited.add(room)
+            for i in rooms[room]:
+                dfs(i)
+            return
+        dfs(0)
+        if len(visited) == len(rooms):
+            return True
+        return False
 class Room:
     def __init__(self, room_no, keys) -> None:
         self.room_no = room_no
@@ -40,4 +53,4 @@ class Room:
     
 
 rooms = [[1,3],[3,0,1],[2],[0]]
-print(Solution().canVisitAllRooms(rooms))
+print(Solution().canVisitAllRooms2(rooms))
