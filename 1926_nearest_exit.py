@@ -76,6 +76,31 @@ class Solution:
             # print(maze)
         # print(list(visited))
         return -1
+    
+    def nearestExit3(self, maze: list[list[str]], entrance: list[int]) -> int:
+        # 27 jul
+
+        visited = set()
+        queua = deque()
+        queua.append((entrance[0], entrance[1], 0))
+        visited.add((entrance[0], entrance[1]))
+        directions = ((0,1),(1,0),(-1,0),(0,-1))
+        while len(queua) > 0:
+
+            x, y, dist = queua.popleft()
+            if x == 0 or x == len(maze) - 1 or y == 0 or y == len(maze[0]) - 1:
+                if x != entrance[0] or y != entrance[1]:
+                    print("exit found, ", x,y)
+                    return dist # handle not to return the entrance point
+            
+            for dx, dy in directions:
+                if 0 <= x+dx < len(maze) and 0 <= y+dy < len(maze[0]):
+                    if maze[x+dx][y+dy] != "+" and (x+dx, y+dy) not in visited:
+                        queua.append((x+dx, y+dy, dist+1))
+                        visited.add((x+dx, y+dy))
+        
+        return -1
+            
 
 # maze = [["+","."]]
 # entrance = [0,1]
@@ -85,4 +110,4 @@ class Solution:
 maze = [["+","+","+"],[".",".","."],["+","+","+"]]
 # entrance = [1,2]
 entrance = [1,0]
-print(Solution().nearestExit2(maze, entrance))
+print(Solution().nearestExit3(maze, entrance))
