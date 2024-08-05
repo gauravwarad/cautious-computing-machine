@@ -25,6 +25,69 @@ class Solution:
             
         backtracking(0, "")
         return op
+    def letterCombinations2(self, digits: str) -> list[str]:
+        # backtracking 31st july 2024
+        op = []
+        if digits == "":
+            return []
+        mapping = {
+            '2': "abc",
+            '3': "def",
+            '4': "ghi",
+            '5': "jkl",
+            '6': "mno",
+            '7': "pqrs",
+            '8': "tuv",
+            '9': "wxyz"
+        }
 
-digits = "23"
-print(Solution().letterCombinations(digits))
+        def backtrack(current, i):
+            print("current is - ", current)
+            if len(current) == len(digits):
+                op.append(current)
+                return
+            
+            for j in range(i, len(digits)):
+                for letter in mapping[digits[j]]:
+                    current = current + letter
+                    backtrack(current, j+1)
+                    current = current[:-1]
+            return
+        backtrack("",0)
+
+        return op
+    
+
+    def letterCombinations3(self, digits: str) -> list[str]:
+        # backtracking 31st july 2024
+        op = []
+        if digits == "":
+            return []
+        mapping = {
+            '2': "abc",
+            '3': "def",
+            '4': "ghi",
+            '5': "jkl",
+            '6': "mno",
+            '7': "pqrs",
+            '8': "tuv",
+            '9': "wxyz"
+        }
+
+        def backtrack(current, i):
+            print("current is - ", current)
+            if len(current) == len(digits):
+                op.append(current)
+                return
+            
+            # for j in range(i, len(digits)):
+            for letter in mapping[digits[i]]:
+                current = current + letter
+                backtrack(current, int(i)+1)
+                current = current[:-1]
+            return
+        backtrack("",0)
+
+        return op
+digits = ""
+print(Solution().letterCombinations3(digits))

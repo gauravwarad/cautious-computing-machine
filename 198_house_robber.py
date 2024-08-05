@@ -15,15 +15,19 @@ class Solution:
 
         return max(rob1, rob2)
 
-
+    def rob2(self, nums: list[int]):
+        # 2nd august 24 --- now i kinda get it.
+        score = [-1]*len(nums)
+        if len(nums) == 1:
+            return nums[0]
+        score[0] = nums[0]
+        score[1] = max(nums[0], nums[1])
+        def dp(i):
+            if score[i] != -1:
+                return score[i]
+            score[i] = max(dp(i-1), dp(i-2) + nums[i])
+            return score[i]
+        return dp(len(nums)-1)
 
 nums = [2,7,9,3,1]
-# can't rob adjacent houses
-# 2 and 9 or 7 and 3 or 2 and 3
-# 2 + 9 is greater so 2,9
-
-# what if [2, 7, 9, 3, 1, 5, 6, 9, 8]
-# [2] + max of [9,.......]
-# 7 + max of [3, ........]
-
-print(Solution().rob(nums))
+print(Solution().rob2(nums))

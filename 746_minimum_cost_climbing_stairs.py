@@ -1,3 +1,4 @@
+from collections import defaultdict
 class Solution:
     def minCostClimbingStairs(self, cost: list[int]) -> int:
         mini = 0
@@ -13,8 +14,31 @@ class Solution:
         print(total_cost)
         return min(total_cost[-1],total_cost[-2])
 
-cost = [10,15,20]
 
-cost = [1,100,1,1,1,100,1,1,100,1]
+    def minCostClimbingStairs2(self, cost: list[int]) -> int:
+
+        def dp(i):
+            print(i)
+            if i<=1:
+                cost_set[i] = 0
+                return 0
+            if i in cost_set:
+                return cost_set[i]
+            cost_set[i] = min(dp(i-1)+cost[i-1], dp(i-2)+cost[i-2])
+            
+            return cost_set[i]
+        cost_set = {}
+        op = dp(len(cost))
+        print(cost_set)
+        return op
+
+
+
+
+
+# cost = [10,15,20,1]
+
+# cost = [1,100,1,1,1,100,1,1,100,1]
 # 1 or 100
-print(Solution().minCostClimbingStairs(cost))
+cost=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0]
+print(Solution().minCostClimbingStairs2(cost))
